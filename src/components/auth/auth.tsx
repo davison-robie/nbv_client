@@ -3,16 +3,18 @@ import {Container, Row, Col, Button} from 'reactstrap';
 import Login from "./login";
 import Signup from "./signup";
 
-type AuthState = {
-    showLogin: Boolean
-};
-
-class Auth extends React.Component<{}, AuthState> {
-    constructor(props){
-        super(props)
-        this.state = {
-            showLogin: true
-        }
+export interface AuthProps {
+    updateToken(newToken: string) : string;
+}
+ 
+export interface AuthState {
+    showLogin: boolean;
+}
+ 
+class Auth extends React.Component<AuthProps, AuthState> {
+    constructor(props: AuthProps) {
+        super(props);
+        this.state = { showLogin: true };
     }
 
     handleToggle(){
@@ -26,7 +28,7 @@ class Auth extends React.Component<{}, AuthState> {
             <Container className="auth-container">
             <Row>
                 <Col md="6">
-                {this.state.showLogin ? <Login updateToken={props.updateToken}/> : <Signup updateToken={props.updateToken}/>}
+                {this.state.showLogin ? <Login updateToken={this.props.updateToken}/> : <Signup updateToken={this.props.updateToken}/>}
                 <br />
                 <Button onClick = {this.handleToggle}>Already a member?</Button>
                 </Col>
@@ -35,5 +37,5 @@ class Auth extends React.Component<{}, AuthState> {
         )
     }
 }
-
+ 
 export default Auth;

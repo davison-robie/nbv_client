@@ -1,4 +1,4 @@
-import React from "react";
+import { Component, ChangeEvent, MouseEvent} from "react";
 import {
     Form,
     FormGroup,
@@ -7,21 +7,25 @@ import {
     Button
 } from "reactstrap";
 
-type LoginState = {
-    email: String,
-    password: String
+export interface LoginProps {
+    updateToken(newToken: string) : string;
+}
+ 
+export interface LoginState {
+    email: string,
+    password: string
 }
 
-class Login extends React.Component<{}, LoginState> {
-    constructor(props){
+class Login extends Component<LoginProps, LoginState> {
+    constructor(props: LoginProps){
         super(props);
-        this.setState = {
+        this.setState({
             email: "",
             password: ""
-        }
+        })
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event: MouseEvent) => {
         event.preventDefault();
         fetch(`http://localhost:3000/user/login`, {
             method: "POST",
@@ -41,11 +45,11 @@ class Login extends React.Component<{}, LoginState> {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
-                    <Input onChange={(e) => setEmail(e.target.value)} name="email" value={email}/>
+                    <Input onChange={(e: ChangeEvent) => this.setState({email: e.target.value})} name="email" value={this.state.email}/>
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="password">Password</Label>
-                    <Input onChange={(e) => setPassword(e.target.value)} name="password" value={password}/>
+                    <Input onChange={(e: ChangeEvent) => this.setState({password: e.target.value})} name="password" value={this.state.password}/>
                 </FormGroup>
                 <Button type="submit">Login</Button>
             </Form>
