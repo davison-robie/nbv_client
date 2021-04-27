@@ -46,7 +46,7 @@ class App extends Component<{}, AppState> {
   render() { 
     return (
       <div>
-      <Sitebar clickLogout={clearToken}/>
+      <Sitebar clickLogout={this.clearToken}/>
       {protectedViews()}
     </div>
     );

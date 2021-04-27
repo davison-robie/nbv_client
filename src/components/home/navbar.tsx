@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component }from 'react';
 import {
     Navbar,
     NavbarBrand,
@@ -9,25 +9,29 @@ import {
     NavItem
 } from "reactstrap";
 
-
-
-class Sitebar extends React.Component <{}, {}>{
-    constructor(props){
-        super(props)
-        this.setState(
-            isOpen: false;
-        )
+export interface SitebarProps {
+    clearToken() : string;
+}
+ 
+export interface SitebarState {
+    isOpen: boolean;
+}
+ 
+class Sitebar extends Component<SitebarProps, SitebarState> {
+    constructor(props: SitebarProps) {
+        super(props);
+        this.state = { isOpen: false };
     }
-
+    
     render(){
         return(
             <Navbar light expand="md">
                 <NavbarBrand href="/">Nice Boy Vice</NavbarBrand>
-                <NavbarToggler onClick={toggle}/>
-            <Collapse isOpen={isOpen} navbar>
+                <NavbarToggler onClick={ontoggle}/>
+            <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <Button onClick={props.clickLogout}>Logout</Button>
+                        <Button onClick={this.props.clearToken}>Logout</Button>
                     </NavItem>
                 </Nav>
             </Collapse>
@@ -35,5 +39,5 @@ class Sitebar extends React.Component <{}, {}>{
         )
     }
 }
-
+ 
 export default Sitebar;
