@@ -2,7 +2,7 @@ import { Component } from 'react';
 import './App.css';
 import Sitebar from "./components/home/navbar";
 import Auth from "./components/auth/auth";
-import StoreIndex from "./components/store/store_index";
+import MainSite from "./components/home/mainsite";
 
 document.title = "Nice Boy Vice"
 
@@ -40,7 +40,7 @@ class App extends Component<{}, AppState> {
   }
 
   protectedViews = () => {
-    return (this.state.sessionToken === localStorage.getItem("token") ? <StoreIndex token={this.state.sessionToken}/>
+    return (this.state.sessionToken === localStorage.getItem("token") ? <MainSite token={this.state.sessionToken}/>
     : <Auth updateToken={this.updateToken}/>)
   }
 

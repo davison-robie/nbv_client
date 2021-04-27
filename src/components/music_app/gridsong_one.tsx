@@ -1,21 +1,28 @@
 import { Component } from 'react';
 
-export interface GridSongProps {
+export interface GridSongOneProps {
+    token: string | null;
+}
+ 
+export interface GridSongOneState {
     
 }
  
-export interface GridSongState {
-    
-}
- 
-class GridSong extends Component<GridSongProps, GridSongState> {
-    constructor(props: GridSongProps) {
+class GridSongOne extends Component<GridSongOneProps, GridSongOneState> {
+    constructor(props: GridSongOneProps) {
         super(props);
         // this.state = { :  };
     }
+
     render() { 
-        return (<p>app placeholder</p>);
+        return (
+            <div>
+                <p>app placeholder</p>
+                <p>{this.props.token}</p>
+            </div>
+        );
+
     }
 }
  
-export default GridSong;
+export default GridSongOne;
