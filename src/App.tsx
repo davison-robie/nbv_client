@@ -1,46 +1,56 @@
-import { useState, useEffect } React from 'react';
+import { Component } from 'react';
 import './App.css';
-import Sitebar from "./home/Navbar";
-import Auth from "./auth/Auth"
+import Sitebar from "./components/home/navbar";
+import Auth from "./components/auth/auth";
 
 document.title = "Nice Boy Vice"
 
-type AppState = {
-  email: String,
-  password: String
+export interface AppState {
+  sessionToken: string | null;
 }
+ 
+class App extends Component<{}, AppState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = { sessionToken: "" };
+  }
 
-const App: React.FunctionComponent = () => {
-  const [sessionToken, setSessionToken] = useState(""); //1
-
-  useEffect(() => { //2
+  componentDidMount(){
     if(localStorage.getItem("token")){
-      setSessionToken(localStorage.getItem("token"));
+      this.setState({
+        sessionToken: localStorage.getItem("token")}
+        );
     }
-  }, [])
+  }
 
-  const updateToken = (newToken) => {
+  updateToken = (newToken: string) => {
     localStorage.setItem("token", newToken);
-    setSessionToken(newToken);
-    console.log(sessionToken);
+    this.setState({
+      sessionToken: newToken
+    });
+    console.log(this.state.sessionToken);
   }
 
-  const clearToken = () => {
+  clearToken = () => {
     localStorage.clear();
-    setSessionToken("");
+    this.setState({
+      sessionToken: ""
+    });
   }
 
-  const protectedViews = () => {
-    return (sessionToken === localStorage.getItem("token") ? <StoreIndex token={sessionToken}/>
-    : <Auth updateToken={updateToken}/>)
+  protectedViews = () => {
+    return (this.state.sessionToken === localStorage.getItem("token") ? <StoreIndex token={this.state.sessionToken}/>
+    : <Auth updateToken={this.updateToken}/>)
   }
 
-  return (
-    <div>
+  render() { 
+    return (
+      <div>
       <Sitebar clickLogout={clearToken}/>
       {protectedViews()}
     </div>
-  );
+    );
+  }
 }
-
+ 
 export default App;
