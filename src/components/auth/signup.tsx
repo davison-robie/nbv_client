@@ -1,4 +1,4 @@
-import {Component, ChangeEvent, MouseEvent} from "react";
+import {Component, ChangeEvent, FormEvent} from "react";
 import {
     Form,
     FormGroup,
@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 
 export interface SignupProps {
-    updateToken(newToken: string) : string;
+    updateToken(newToken: string) : void;
 }
  
 export interface SignupState {
@@ -25,7 +25,7 @@ class Signup extends Component<SignupProps, SignupState> {
         };
     }
     
-    handleSubmit = (event: MouseEvent) => {
+    handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         fetch("http://localhost:3000/user/register", {
             method: "POST",
@@ -46,16 +46,14 @@ class Signup extends Component<SignupProps, SignupState> {
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
                     <Input 
-                    onChange={(e: ChangeEvent) => this.setState({email: e.target.value})} 
-                    name="email" 
-                    value={this.state.email}/>
+                    onChange={(e: ChangeEvent) => this.setState({email: (e.target as HTMLTextAreaElement).value})} 
+                    name="email" />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="password">Password</Label>
                     <Input 
-                    onChange={(e: ChangeEvent) => this.setState({password: e.target.value})} 
-                    name="password" 
-                    value={this.state.password}/>
+                    onChange={(e: ChangeEvent) => this.setState({password: (e.target as HTMLTextAreaElement).value})} 
+                    name="password" />
                 </FormGroup>
                 <Button type="submit">Signup</Button>
             </Form>

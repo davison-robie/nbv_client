@@ -2,6 +2,7 @@ import { Component } from 'react';
 import './App.css';
 import Sitebar from "./components/home/navbar";
 import Auth from "./components/auth/auth";
+import StoreIndex from "./components/store/store_index";
 
 document.title = "Nice Boy Vice"
 
@@ -46,8 +47,8 @@ class App extends Component<{}, AppState> {
   render() { 
     return (
       <div>
-      <Sitebar clickLogout={this.clearToken}/>
-      {protectedViews()}
+      <Sitebar clearToken={this.clearToken}/>
+      {this.protectedViews()}
     </div>
     );
   }

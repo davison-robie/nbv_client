@@ -4,7 +4,7 @@ import Login from "./login";
 import Signup from "./signup";
 
 export interface AuthProps {
-    updateToken(newToken: string) : string;
+    updateToken(newToken: string) : void;
 }
  
 export interface AuthState {

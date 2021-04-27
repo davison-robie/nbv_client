@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 
 export interface LoginProps {
-    updateToken(newToken: string) : string;
+    updateToken(newToken: string) : void;
 }
  
 export interface LoginState {
@@ -25,8 +25,8 @@ class Login extends Component<LoginProps, LoginState> {
         })
     }
 
-    handleSubmit = (event: MouseEvent) => {
-        event.preventDefault();
+    handleSubmit = () => {
+        //event.preventDefault();
         fetch(`http://localhost:3000/user/login`, {
             method: "POST",
             body: JSON.stringify({user:{email: this.state.email, password: this.state.password}}),
@@ -42,14 +42,14 @@ class Login extends Component<LoginProps, LoginState> {
         return(
         <div>
             <h1>Login</h1>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
-                    <Input onChange={(e: ChangeEvent) => this.setState({email: e.target.value})} name="email" value={this.state.email}/>
+                    <Input onChange={(event) => {this.setState({email: event.target.value})}} name="email"/>
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="password">Password</Label>
-                    <Input onChange={(e: ChangeEvent) => this.setState({password: e.target.value})} name="password" value={this.state.password}/>
+                    <Input onChange={(event) => this.setState({password: event.target.value})} name="password" />
                 </FormGroup>
                 <Button type="submit">Login</Button>
             </Form>

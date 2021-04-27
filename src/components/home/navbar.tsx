@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 
 export interface SitebarProps {
-    clearToken() : string;
+    clearToken: () => void;
 }
  
 export interface SitebarState {
@@ -22,12 +22,14 @@ class Sitebar extends Component<SitebarProps, SitebarState> {
         super(props);
         this.state = { isOpen: false };
     }
+
+    toggle = () => this.setState({ isOpen: !this.state.isOpen })
     
     render(){
         return(
             <Navbar light expand="md">
                 <NavbarBrand href="/">Nice Boy Vice</NavbarBrand>
-                <NavbarToggler onClick={ontoggle}/>
+                <NavbarToggler onClick={this.toggle}/>
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                     <NavItem>
