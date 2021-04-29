@@ -14,6 +14,9 @@ class App extends Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
     this.state = { sessionToken: "" };
+    this.updateToken = this.updateToken.bind(this);
+    this.clearToken = this.clearToken.bind(this);
+    this.protectedViews = this.protectedViews.bind(this);
   }
 
   componentDidMount(){
@@ -40,7 +43,7 @@ class App extends Component<{}, AppState> {
   }
 
   protectedViews = () => {
-    return (this.state.sessionToken === localStorage.getItem("token") ? <MainSite token={this.state.sessionToken}/>
+    return (this.state.sessionToken === localStorage.getItem("token") ? <MainSite token={this.state.sessionToken} />
     : <Auth updateToken={this.updateToken}/>)
   }
 

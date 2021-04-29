@@ -12,6 +12,7 @@ export interface SignupProps {
 }
  
 export interface SignupState {
+    username: string,
     email: string,
     password: string
 }
@@ -20,18 +21,20 @@ class Signup extends Component<SignupProps, SignupState> {
     constructor(props: SignupProps) {
         super(props);
         this.state = { 
+            username: "",
             email: "",
             password: "" 
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        fetch("http://localhost:3000/user/register", {
+        fetch("http://localhost:3000/guest_user/create", {
             method: "POST",
-            body: JSON.stringify({user:{email: this.state.email, password: this.state.password}}),
+            body: JSON.stringify({guest_user:{username: this.state.username, email: this.state.email, password: this.state.password}}),
             headers: new Headers({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             })
         })
         .then((response) => response.json())
@@ -43,6 +46,12 @@ class Signup extends Component<SignupProps, SignupState> {
         <div>
             <h1>Signup</h1>
             <Form onSubmit={this.handleSubmit}>
+            <FormGroup>
+                    <Label htmlFor="name">Name</Label>
+                    <Input 
+                    onChange={(e: ChangeEvent) => this.setState({username: (e.target as HTMLTextAreaElement).value})} 
+                    name="email" />
+                </FormGroup>
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
                     <Input 

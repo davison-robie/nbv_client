@@ -1,4 +1,4 @@
-import { Component, ChangeEvent, MouseEvent} from "react";
+import { Component, ChangeEvent, FormEvent} from "react";
 import {
     Form,
     FormGroup,
@@ -12,6 +12,7 @@ export interface LoginProps {
 }
  
 export interface LoginState {
+    username: string,
     email: string,
     password: string
 }
@@ -20,16 +21,18 @@ class Login extends Component<LoginProps, LoginState> {
     constructor(props: LoginProps){
         super(props);
         this.setState({
+            username: "",
             email: "",
             password: ""
         })
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = () => {
-        //event.preventDefault();
-        fetch(`http://localhost:3000/user/login`, {
+    handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        fetch(`http://localhost:3000/guest_user/login`, {
             method: "POST",
-            body: JSON.stringify({user:{email: this.state.email, password: this.state.password}}),
+            body: JSON.stringify({guest_user:{username: this.state.username, email: this.state.email, password: this.state.password}}),
             headers: new Headers({
                 "Content-Type": "application/json"
             })
@@ -43,6 +46,12 @@ class Login extends Component<LoginProps, LoginState> {
         <div>
             <h1>Login</h1>
             <Form onSubmit={this.handleSubmit}>
+            <FormGroup>
+                    <Label htmlFor="name">Name</Label>
+                    <Input 
+                    onChange={(e: ChangeEvent) => this.setState({username: (e.target as HTMLTextAreaElement).value})} 
+                    name="email" />
+                </FormGroup>
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
                     <Input onChange={(event) => {this.setState({email: event.target.value})}} name="email"/>
