@@ -3,22 +3,36 @@ import { Card, CardDeck } from 'reactstrap';
 
 export interface InventoryProps {
     token: string | null;
-    products: string;
+    products: [string, string, number, number, string];
 }
  
 export interface InventoryState {
     itemInfo: string;
+    product: [string, string, number, number, string];
 }
  
 class Inventory extends Component<InventoryProps, InventoryState> {
     constructor(props: InventoryProps) {
         super(props);
-        this.state = { itemInfo: "info for one item" };
+        this.inventoryMapper = this.inventoryMapper.bind(this);
     }
+
+    inventoryMapper = () => {
+        return this.props.products.map((product, index) => {
+            return (
+                <Card>
+                    {this.state.product.name}
+                </Card>
+            )
+        })
+    }
+
     render() { 
         return (
             <div>
-
+                <CardDeck>
+                    {this.inventoryMapper()}
+                </CardDeck>
             </div>
         );
     }
