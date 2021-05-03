@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Modal } from 'reactstrap';
 import Inventory from "./inventory";
 import Cart from "./cart";
 
