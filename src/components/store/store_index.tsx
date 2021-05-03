@@ -2,12 +2,21 @@ import { Component } from 'react';
 import Inventory from "./inventory";
 import Cart from "./cart";
 
+export interface iProduct {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    quantity: number;
+    image_url: string;
+}
+
 export interface StoreIndexProps {
     token: string | null;
 }
  
 export interface StoreIndexState {
-    products: string;
+    products: [iProduct] | [];
 }
  
 class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
@@ -26,9 +35,9 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
             })
         })
         .then((res) => res.json())
-        .then((logData) => {
-            this.setState({products: logData});
-            console.log(logData);
+        .then((productData) => {
+            this.setState({products: productData});
+            console.log(productData);
         })
     }
 
@@ -37,8 +46,8 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
     }
     render() { 
         return (
-            <div>
-                <Inventory product={this.state.products} token={this.props.token}/>
+            <div className="storeIndex">
+                <Inventory products={this.state.products} token={this.props.token}/>
                 <Cart token={this.props.token}/>
             </div>
         );

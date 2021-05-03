@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 1;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -17,5 +17,13 @@ code {
 } */
 
 .mainDiv{
-  background-color: blue;
+  background-color: transparent;
+  height: 100vh;
+  width: 93%;
+  margin: 1em auto 1em auto;
+}
+
+.navbar {
+  color: white;
+  background-color: gray;
 }
