@@ -7,24 +7,15 @@ import {
     ModalBody, 
     ModalFooter 
 } from 'reactstrap';
-
-interface iCartItem {
-    id: number | undefined;
-    product_id: number | undefined;
-    cart_id: number | undefined;
-    name: string | undefined;
-    description: string | undefined;
-    price: number | undefined;
-    quantity: number | undefined;
-    image_url: string | undefined
-}
+import {iCartItem} from "./store_index";
 
 export interface CartProps {
     token: string | null,
+    fetchCart() : [iCartItem] | void;
+    cartItems: [iCartItem] | [];
 }
  
 export interface CartState {
-    cartItems: [iCartItem] | [];
     oneCartItem: iCartItem;
     modal: boolean;
     detailModal: boolean;
@@ -34,7 +25,6 @@ class Cart extends Component<CartProps, CartState> {
     constructor(props: CartProps) {
         super(props);
         this.state = { 
-            cartItems: [], 
             oneCartItem: {
                 id: undefined,
                 product_id: undefined, 
@@ -50,28 +40,28 @@ class Cart extends Component<CartProps, CartState> {
          };
     }
 
-    fetchCart = () => {
-        if (this.props.token !== null) {
-            fetch("http://localhost:3000/cart_item/", {
-                method: "GET",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.token
-                })
-            })
-            .then((res) => res.json())
-            .then((cartItemData) => {
-                this.setState({cartItems: cartItemData});
-                console.log(cartItemData);
-            })
-        }
-    }
+    // fetchCart = () => {
+    //     if (this.props.token !== null) {
+    //         fetch("http://localhost:3000/cart_item/", {
+    //             method: "GET",
+    //             headers: new Headers({
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": this.props.token
+    //             })
+    //         })
+    //         .then((res) => res.json())
+    //         .then((cartItemData) => {
+    //             this.setState({cartItems: cartItemData});
+    //             console.log(cartItemData);
+    //         })
+    //     }
+    // }
 
     componentDidMount() {
-        this.fetchCart();
+        this.props.fetchCart();
     }
     // emptyCartToggle = () => {
-    //     // if (this.state.cartItems !== []) {
+    //     // if (this.state.cartItems.length !== []) {
     //         return (
     //             <div>
     //                 <ModalHeader><h1>Cart</h1></ModalHeader>
@@ -114,8 +104,8 @@ class Cart extends Component<CartProps, CartState> {
     // }    
 
     cartMapper = () => {
-        console.log("hello", this.state.cartItems);
-        return this.state.cartItems.map((cartItem: iCartItem, index: number) => {
+        console.log("hello", this.props.cartItems);
+        return this.props.cartItems.map((cartItem: iCartItem, index: number) => {
             
             return (
                 <tr onClick={() => this.handleClick(cartItem)}>
@@ -145,7 +135,7 @@ class Cart extends Component<CartProps, CartState> {
                     "Authorization": this.props.token
                 })
             })
-            .then(() => this.fetchCart())
+            .then(() => this.props.fetchCart())
             .then(() => this.detailToggle());
         }
     };
@@ -159,7 +149,7 @@ class Cart extends Component<CartProps, CartState> {
                     "Authorization": this.props.token
                 })
             })
-            .then(() => this.fetchCart())
+            .then(() => this.props.fetchCart())
         }
     };
 
@@ -167,7 +157,6 @@ class Cart extends Component<CartProps, CartState> {
 
     render() { 
         return (
-
             <div>
                 <Button className="btn btn-outline-light" onClick={this.toggle}>View Cart</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">

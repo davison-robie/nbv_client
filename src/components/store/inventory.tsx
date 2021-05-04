@@ -1,11 +1,13 @@
 import { Component, MouseEvent } from 'react';
 import { CardTitle, CardText, CardImg, Card, CardDeck, Button } from 'reactstrap';
 import { iProduct } from "./store_index";
+import { iCartItem } from "./store_index";
 
 
 export interface InventoryProps {
     token: string | null;
     products: [iProduct] | [];
+    fetchCart() : [iCartItem] | void;
 }
  
 export interface InventoryState {
@@ -44,6 +46,7 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                 console.log(data)
 
             })
+            .then(this.props.fetchCart)
         }
     };
 
