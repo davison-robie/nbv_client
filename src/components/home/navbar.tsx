@@ -46,7 +46,7 @@ class Sitebar extends Component<SitebarProps, SitebarState> {
                         </Link>
                     </NavItem>
                     <NavItem>
-                        <Button onClick={this.props.clearToken}>Logout</Button>
+                        <Button className="btn btn-outline-light" onClick={this.props.clearToken}>Logout</Button>
                     </NavItem>
                 </Nav>
             </Collapse>

@@ -64,7 +64,7 @@ class Signup extends Component<SignupProps, SignupState> {
                     onChange={(e: ChangeEvent) => this.setState({password: (e.target as HTMLTextAreaElement).value})} 
                     name="password" />
                 </FormGroup>
-                <Button type="submit">Signup</Button>
+                <Button type="submit" className="btn btn-outline-light">Signup</Button>
             </Form>
         </div>
         );

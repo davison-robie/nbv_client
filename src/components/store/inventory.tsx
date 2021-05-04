@@ -26,7 +26,7 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                 method: "POST",
                 body: JSON.stringify({
                     product_id: product.id,
-                    cart_id: 2,
+                    // cart_id: {user.id},
                     name: product.name,
                     description: product.description,
                     price: product.price,
@@ -55,7 +55,7 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                     <CardImg src={product.image_url}></CardImg>
                     <CardTitle>{product.name}</CardTitle>
                     <CardText>${product.price}</CardText>
-                    <Button onClick={(event) => this.handleClick(event, product)} >Add to Cart</Button>
+                    <Button type="button" className="btn btn-outline-light" onClick={(event) => this.handleClick(event, product)} >Add to Cart</Button>
                 </Card>
             )
         })

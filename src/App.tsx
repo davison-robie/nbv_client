@@ -13,7 +13,7 @@ export interface AppState {
 class App extends Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
-    this.state = { sessionToken: "" };
+    this.state = { sessionToken: null };
     this.updateToken = this.updateToken.bind(this);
     this.clearToken = this.clearToken.bind(this);
     this.protectedViews = this.protectedViews.bind(this);

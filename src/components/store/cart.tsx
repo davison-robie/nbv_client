@@ -1,5 +1,4 @@
-import { VerifyPublicKeyInput } from 'crypto';
-import { Component } from 'react';
+import { Component, MouseEvent } from 'react';
 import { 
     Modal, 
     Table,
@@ -10,6 +9,7 @@ import {
 } from 'reactstrap';
 
 interface iCartItem {
+    id: number | undefined;
     product_id: number | undefined;
     cart_id: number | undefined;
     name: string | undefined;
@@ -36,6 +36,7 @@ class Cart extends Component<CartProps, CartState> {
         this.state = { 
             cartItems: [], 
             oneCartItem: {
+                id: undefined,
                 product_id: undefined, 
                 cart_id: undefined, 
                 name: undefined, 
@@ -50,24 +51,70 @@ class Cart extends Component<CartProps, CartState> {
     }
 
     fetchCart = () => {
-        fetch("http://localhost:3000/cart_item/", {
-            method: "GET",
-            headers: new Headers({
-                "Content-Type": "application/json",
+        if (this.props.token !== null) {
+            fetch("http://localhost:3000/cart_item/", {
+                method: "GET",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.token
+                })
             })
-        })
-        .then((res) => res.json())
-        .then((cartItemData) => {
-            this.setState({cartItems: cartItemData});
-            console.log(cartItemData);
-        })
+            .then((res) => res.json())
+            .then((cartItemData) => {
+                this.setState({cartItems: cartItemData});
+                console.log(cartItemData);
+            })
+        }
     }
 
     componentDidMount() {
         this.fetchCart();
     }
+    // emptyCartToggle = () => {
+    //     // if (this.state.cartItems !== []) {
+    //         return (
+    //             <div>
+    //                 <ModalHeader><h1>Cart</h1></ModalHeader>
+    //                 <ModalBody>
+    //                     <Table responsive="md" hover>
+    //                         <thead>
+    //                             <tr>
+    //                                 <th>Item</th>
+    //                                 <th>Price</th>
+    //                             </tr>
+    //                         </thead>
+    //                         <tbody>
+    //                             {this.cartMapper()}
+    //                         </tbody>
+    //                     </Table>
+    //                 </ModalBody>
+    //                 <ModalFooter>
+    //                     <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
+    //                 </ModalFooter>
+    //                 <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
+    //                     <ModalBody>
+    //                         <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
+    //                         <h2>{this.state.oneCartItem.name}</h2>
+    //                         <h2>{this.state.oneCartItem.description}</h2>
+    //                         <h2>{this.state.oneCartItem.price}</h2>
+    //                     </ModalBody>
+    //                     <ModalFooter>
+    //                         <Button className="btn btn-outline-light" onClick={(event) => this.removeCartItem(event, this.state.oneCartItem)}>Remove from Cart</Button>
+    //                     </ModalFooter>
+    //                 </Modal>
+    //             </div>   )         
+    //     // )} else {
+    //     //     return (
+    //     //         <div>
+    //     //             <ModalHeader><h1>Cart</h1></ModalHeader>
+    //     //             <ModalBody><h2>"Your cart is empty :("</h2></ModalBody>
+    //     //         </div>
+    //     //     )
+    //     // };        
+    // }    
 
     cartMapper = () => {
+        console.log("hello", this.state.cartItems);
         return this.state.cartItems.map((cartItem: iCartItem, index: number) => {
             
             return (
@@ -88,15 +135,43 @@ class Cart extends Component<CartProps, CartState> {
         this.setState({oneCartItem: cartItem})
     }
 
+    removeCartItem = (event: MouseEvent, oneCartItem: iCartItem) => {
+        console.log(oneCartItem.id);
+        if (this.props.token !== null) {
+            fetch(`http://localhost:3000/cart_item/delete/${oneCartItem.id}`, {
+                method: "DELETE",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.token
+                })
+            })
+            .then(() => this.fetchCart())
+            .then(() => this.detailToggle());
+        }
+    };
+
+    clearCart = (event: MouseEvent) => {
+        if (this.props.token !== null) {
+            fetch(`http://localhost:3000/cart_item/delete`, {
+                method: "DELETE",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.token
+                })
+            })
+            .then(() => this.fetchCart())
+        }
+    };
+
     order = () => console.log("proceed to checkout");
 
     render() { 
         return (
 
             <div>
-                <Button color="danger" onClick={this.toggle}>View Cart</Button>
+                <Button className="btn btn-outline-light" onClick={this.toggle}>View Cart</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
-                    <ModalHeader><h1>Cart</h1></ModalHeader>
+                <ModalHeader><h1>Cart</h1></ModalHeader>
                     <ModalBody>
                         <Table responsive="md" hover>
                             <thead>
@@ -111,16 +186,19 @@ class Cart extends Component<CartProps, CartState> {
                         </Table>
                     </ModalBody>
                     <ModalFooter>
-                    <Button color="danger" onClick={this.order}>Checkout</Button>
+                        <Button className="btn btn-outline-light" onClick={this.clearCart}>Remove All Items from Cart</Button>
+                        <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
                     </ModalFooter>
                     <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
-                    <ModalBody>
-                        <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
-                        <h2>{this.state.oneCartItem.name}</h2>
-                        <h2>{this.state.oneCartItem.description}</h2>
-                        <h2>{this.state.oneCartItem.price}</h2>
-                    </ModalBody>
-                    <ModalFooter></ModalFooter>
+                        <ModalBody>
+                            <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
+                            <h2>{this.state.oneCartItem.name}</h2>
+                            <h2>{this.state.oneCartItem.description}</h2>
+                            <h2>{this.state.oneCartItem.price}</h2>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button className="btn btn-outline-light" onClick={(event) => this.removeCartItem(event, this.state.oneCartItem)}>Remove from Cart</Button>
+                        </ModalFooter>
                     </Modal>
                 </Modal>
             </div>
