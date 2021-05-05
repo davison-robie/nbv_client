@@ -60,48 +60,51 @@ class Cart extends Component<CartProps, CartState> {
     componentDidMount() {
         this.props.fetchCart();
     }
-    // emptyCartToggle = () => {
-    //     // if (this.state.cartItems.length !== []) {
-    //         return (
-    //             <div>
-    //                 <ModalHeader><h1>Cart</h1></ModalHeader>
-    //                 <ModalBody>
-    //                     <Table responsive="md" hover>
-    //                         <thead>
-    //                             <tr>
-    //                                 <th>Item</th>
-    //                                 <th>Price</th>
-    //                             </tr>
-    //                         </thead>
-    //                         <tbody>
-    //                             {this.cartMapper()}
-    //                         </tbody>
-    //                     </Table>
-    //                 </ModalBody>
-    //                 <ModalFooter>
-    //                     <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
-    //                 </ModalFooter>
-    //                 <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
-    //                     <ModalBody>
-    //                         <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
-    //                         <h2>{this.state.oneCartItem.name}</h2>
-    //                         <h2>{this.state.oneCartItem.description}</h2>
-    //                         <h2>{this.state.oneCartItem.price}</h2>
-    //                     </ModalBody>
-    //                     <ModalFooter>
-    //                         <Button className="btn btn-outline-light" onClick={(event) => this.removeCartItem(event, this.state.oneCartItem)}>Remove from Cart</Button>
-    //                     </ModalFooter>
-    //                 </Modal>
-    //             </div>   )         
-    //     // )} else {
-    //     //     return (
-    //     //         <div>
-    //     //             <ModalHeader><h1>Cart</h1></ModalHeader>
-    //     //             <ModalBody><h2>"Your cart is empty :("</h2></ModalBody>
-    //     //         </div>
-    //     //     )
-    //     // };        
-    // }    
+    emptyCartToggle = () => {
+        if (this.props.cartItems.length !== 0) {
+            return (
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
+                        <ModalHeader><h1>Cart</h1></ModalHeader>
+                        <ModalBody>
+                            <Table responsive="md" hover>
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.cartMapper()}
+                                </tbody>
+                            </Table>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button className="btn btn-outline-light" onClick={this.clearCart}>Remove All Items from Cart</Button>
+                            <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
+                        </ModalFooter>
+                        <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
+                            <ModalBody>
+                                <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
+                                <h2>{this.state.oneCartItem.name}</h2>
+                                <h2>{this.state.oneCartItem.description}</h2>
+                                <h2>{this.state.oneCartItem.price}</h2>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button className="btn btn-outline-light" onClick={(event) => this.removeCartItem(event, this.state.oneCartItem)}>Remove from Cart</Button>
+                            </ModalFooter>
+                        </Modal>
+                    </Modal>        
+        )} else {
+            return (
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
+                        <ModalHeader><h1>Cart</h1></ModalHeader>
+                        <br/>
+                        <ModalBody><h3>Your cart is empty...</h3></ModalBody>
+                        <br/>
+                    </Modal>
+            )
+        };        
+    }    
 
     cartMapper = () => {
         console.log("hello", this.props.cartItems);
@@ -159,37 +162,7 @@ class Cart extends Component<CartProps, CartState> {
         return (
             <div>
                 <Button className="btn btn-outline-light" onClick={this.toggle}>View Cart</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
-                <ModalHeader><h1>Cart</h1></ModalHeader>
-                    <ModalBody>
-                        <Table responsive="md" hover>
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.cartMapper()}
-                            </tbody>
-                        </Table>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button className="btn btn-outline-light" onClick={this.clearCart}>Remove All Items from Cart</Button>
-                        <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
-                    </ModalFooter>
-                    <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
-                        <ModalBody>
-                            <img src={this.state.oneCartItem.image_url} alt={this.state.oneCartItem.name} width="100%"/>
-                            <h2>{this.state.oneCartItem.name}</h2>
-                            <h2>{this.state.oneCartItem.description}</h2>
-                            <h2>{this.state.oneCartItem.price}</h2>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button className="btn btn-outline-light" onClick={(event) => this.removeCartItem(event, this.state.oneCartItem)}>Remove from Cart</Button>
-                        </ModalFooter>
-                    </Modal>
-                </Modal>
+                {this.emptyCartToggle()}
             </div>
         );
     }

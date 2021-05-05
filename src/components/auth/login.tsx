@@ -44,7 +44,10 @@ class Login extends Component<LoginProps, LoginState> {
     render(){
         return(
         <div>
+            <br/>
+            <br/>
             <h1>Login</h1>
+            <br/>
             <Form onSubmit={this.handleSubmit}>
             <FormGroup>
                     <Label htmlFor="name">Name</Label>

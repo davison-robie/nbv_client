@@ -1,6 +1,15 @@
 import { Component, MouseEvent } from 'react';
-import { CardTitle, CardText, CardImg, Card, CardDeck, Button } from 'reactstrap';
-import { iProduct } from "./store_index";
+import { CardTitle,
+         CardText, 
+         CardImg, 
+         Card, 
+         CardDeck, 
+         Button,
+         Modal,
+         ModalBody,
+         ModalFooter   
+        } from 'reactstrap';
+import { iProduct } from './store_index';
 import { iCartItem } from "./store_index";
 
 
@@ -11,13 +20,26 @@ export interface InventoryProps {
 }
  
 export interface InventoryState {
-    itemInfo: string;
-    product: iProduct;
+    oneProduct: iProduct;
+    product: iProduct | [];
+    modal: boolean;
 }
  
 class Inventory extends Component<InventoryProps, InventoryState> {
     constructor(props: InventoryProps) {
         super(props);
+        this.state = {
+            oneProduct: {
+                id: undefined,
+                name: undefined, 
+                description: undefined,
+                price: undefined,
+                quantity: undefined,
+                image_url: undefined
+            },
+            product: [],
+            modal: false
+        }
     }
 
     handleClick = (event: MouseEvent, product: iProduct) => {
@@ -58,10 +80,19 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                     <CardImg src={product.image_url}></CardImg>
                     <CardTitle>{product.name}</CardTitle>
                     <CardText>${product.price}</CardText>
-                    <Button type="button" className="btn btn-outline-light" onClick={(event) => this.handleClick(event, product)} >Add to Cart</Button>
+                    <Button type="button" className="btn-sm btn-outline-light" onClick={(event) => this.detailClick(event, product)}>Details</Button>
+                    <Button type="button" className="btn-sm btn-outline-light" onClick={(event) => this.handleClick(event, product)} >Add to Cart</Button>
                 </Card>
             )
         })
+    }
+
+    toggle = () => this.setState({modal: !this.state.modal});
+    detailClick = (event: MouseEvent, product: iProduct) => {
+        event.preventDefault();
+        this.toggle();
+        this.setState({oneProduct: product})
+        console.log(this.state.oneProduct.name)
     }
 
     render() { 
@@ -70,6 +101,17 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                 <CardDeck>
                     {this.inventoryMapper()}
                 </CardDeck>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                        <ModalBody>
+                            <img src={this.state.oneProduct.image_url} alt={this.state.oneProduct.name} width="100%"/>
+                            <h2>{this.state.oneProduct.name}</h2>
+                            <h2>{this.state.oneProduct.description}</h2>
+                            <h2>{this.state.oneProduct.price}</h2>
+                        </ModalBody>
+                        <ModalFooter>
+                        <Button type="button" className="btn-sm btn-outline-light" onClick={(event) => this.handleClick(event, this.state.oneProduct)} >Add to Cart</Button>
+                        </ModalFooter>
+                </Modal>
             </div>
         );
     }

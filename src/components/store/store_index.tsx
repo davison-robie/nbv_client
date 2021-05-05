@@ -4,12 +4,12 @@ import Inventory from "./inventory";
 import Cart from "./cart";
 
 export interface iProduct {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    quantity: number;
-    image_url: string;
+    id: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    price: number | undefined;
+    quantity: number | undefined;
+    image_url: string | undefined;
 }
 
 export interface iCartItem {

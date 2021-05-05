@@ -44,7 +44,10 @@ class Signup extends Component<SignupProps, SignupState> {
     render(){
         return (
         <div>
+            <br/>
+            <br/>
             <h1>Signup</h1>
+            <br/>
             <Form onSubmit={this.handleSubmit}>
             <FormGroup>
                     <Label htmlFor="name">Name</Label>
