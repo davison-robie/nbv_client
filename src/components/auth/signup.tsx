@@ -49,7 +49,7 @@ class Signup extends Component<SignupProps, SignupState> {
             <h1>Signup</h1>
             <br/>
             <Form onSubmit={this.handleSubmit}>
-            <FormGroup>
+                <FormGroup>
                     <Label htmlFor="name">Name</Label>
                     <Input 
                     onChange={(e: ChangeEvent) => this.setState({username: (e.target as HTMLTextAreaElement).value})} 

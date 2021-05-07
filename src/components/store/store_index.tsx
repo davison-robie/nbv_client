@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Modal } from 'reactstrap';
+import { CardTitle, Modal } from 'reactstrap';
 import Inventory from "./inventory";
 import Cart from "./cart";
 
@@ -18,7 +18,7 @@ export interface iCartItem {
     cart_id: number | undefined;
     name: string | undefined;
     description: string | undefined;
-    price: number | undefined;
+    price: number;
     quantity: number | undefined;
     image_url: string | undefined
 }
@@ -30,6 +30,7 @@ export interface StoreIndexProps {
 export interface StoreIndexState {
     products: [iProduct] | [];
     cartItems: [iCartItem] | [];
+    total: number;
 }
  
 class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
@@ -37,7 +38,8 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
         super(props);
         this.state = {
             products: [],
-            cartItems: []
+            cartItems: [],
+            total: 0
         }
     }
 
@@ -57,6 +59,7 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
 
     componentDidMount() {
         this.fetchInventory();
+        // this.setTotal();
     }
 
     fetchCart = () => {
@@ -73,6 +76,19 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
                 this.setState({cartItems: cartItemData});
                 console.log(cartItemData);
             })
+            .then(() => this.setTotal())
+        }
+    }
+
+    setTotal = () => {
+        if (this.state.cartItems !== undefined) {
+            let i: number;
+            let priceArray: number[] = [];
+            for (i = 0; i < this.state.cartItems.length; i++) {
+                priceArray.push(this.state.cartItems[i].price);
+            }
+            let cartTotal = priceArray.reduce((a, b) => a + b, 0)
+            this.setState({total: cartTotal})
         }
     }
 
@@ -80,7 +96,7 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
         return (
             <div className="storeIndex">
                 <Inventory products={this.state.products} fetchCart={this.fetchCart} token={this.props.token}/>
-                <Cart fetchCart={this.fetchCart} cartItems={this.state.cartItems} token={this.props.token}/>
+                <Cart fetchCart={this.fetchCart} cartItems={this.state.cartItems} total={this.state.total} token={this.props.token}/>
             </div>
         );
     }

@@ -6,6 +6,7 @@ import {
 import { Navbar } from 'reactstrap';
 import StoreIndex from "../store/store_index"
 import GridSongOne from "../music_app/gridsong_one";
+import Order from "../store/order"
 
 export interface MainSiteProps {
     token: string | null;
@@ -26,6 +27,7 @@ class MainSite extends Component<MainSiteProps, MainSiteState> {
                 <Switch>
                     <Route exact path="/store"><StoreIndex token={this.props.token}/></Route>
                     <Route exact path="/app"><GridSongOne token={this.props.token}/></Route>
+                    <Route exact path="/checkout"><Order token={this.props.token}/></Route>
                 </Switch>
                 <Navbar className="dark fixed-bottom">2021 Nice Boy Vice</Navbar>
             </div>

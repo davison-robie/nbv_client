@@ -31,9 +31,8 @@ btn-success:focus {
 
 .mainDiv{
   background-color: transparent;
-  height: 100vh;
   width: 93%;
-  margin: 1em auto 1em auto;
+  margin: 1em auto 5em auto;
 }
 
 .navbar {

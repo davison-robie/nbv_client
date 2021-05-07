@@ -7,12 +7,14 @@ import {
     ModalBody, 
     ModalFooter 
 } from 'reactstrap';
-import {iCartItem} from "./store_index";
+import { Link } from "react-router-dom";
+import { iCartItem } from './store_index';
 
 export interface CartProps {
     token: string | null,
     fetchCart() : [iCartItem] | void;
     cartItems: [iCartItem] | [];
+    total: number;
 }
  
 export interface CartState {
@@ -31,7 +33,7 @@ class Cart extends Component<CartProps, CartState> {
                 cart_id: undefined, 
                 name: undefined, 
                 description: undefined,
-                price: undefined,
+                price: 0,
                 quantity: undefined,
                 image_url: undefined
             },
@@ -39,23 +41,6 @@ class Cart extends Component<CartProps, CartState> {
             detailModal: false,
          };
     }
-
-    // fetchCart = () => {
-    //     if (this.props.token !== null) {
-    //         fetch("http://localhost:3000/cart_item/", {
-    //             method: "GET",
-    //             headers: new Headers({
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": this.props.token
-    //             })
-    //         })
-    //         .then((res) => res.json())
-    //         .then((cartItemData) => {
-    //             this.setState({cartItems: cartItemData});
-    //             console.log(cartItemData);
-    //         })
-    //     }
-    // }
 
     componentDidMount() {
         this.props.fetchCart();
@@ -70,17 +55,25 @@ class Cart extends Component<CartProps, CartState> {
                                 <thead>
                                     <tr>
                                         <th>Item</th>
+                                        <th></th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.cartMapper()}
                                 </tbody>
+                                <tfoot>
+                                    <td></td>
+                                    <th>Total:</th>
+                                    <th>${this.props.total}</th>
+                                    </tfoot>
                             </Table>
                         </ModalBody>
                         <ModalFooter>
                             <Button className="btn btn-outline-light" onClick={this.clearCart}>Remove All Items from Cart</Button>
-                            <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
+                            <Link to="/checkout">
+                                <Button className="btn btn-outline-light" onClick={this.order}>Checkout</Button>
+                            </Link>
                         </ModalFooter>
                         <Modal isOpen={this.state.detailModal} toggle={this.detailToggle}>
                             <ModalBody>
@@ -104,16 +97,14 @@ class Cart extends Component<CartProps, CartState> {
                     </Modal>
             )
         };        
-    }    
+    }
 
     cartMapper = () => {
-        console.log("hello", this.props.cartItems);
         return this.props.cartItems.map((cartItem: iCartItem, index: number) => {
-            
             return (
                 <tr onClick={() => this.handleClick(cartItem)}>
                     <td>{cartItem.name}</td>
-                    {/* <img src={cartItem.image_url} sizes="25px" alt="cart item image"></img> */}
+                    <td></td>
                     <td>${cartItem.price}</td>
                 </tr>
             )
