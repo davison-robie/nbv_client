@@ -181,7 +181,6 @@ class Cart extends Component<CartProps, CartState> {
         return (
             <div>
                 <Button className="btn btn-outline-light" onClick={this.toggle}>View Cart</Button>
-                <Button className="btn btn-outline-light" onClick={this.adminHandleClick}>Edit Inventory</Button>
                 {this.emptyCartToggle()}
             </div>
         );

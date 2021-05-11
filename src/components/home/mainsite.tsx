@@ -25,6 +25,7 @@ class MainSite extends Component<MainSiteProps, MainSiteState> {
         return (
             <div className="mainDiv">
                 <Switch>
+                    <Route exact path="/"><StoreIndex token={this.props.token}/></Route>
                     <Route exact path="/store"><StoreIndex token={this.props.token}/></Route>
                     <Route exact path="/app"><GridSongOne token={this.props.token}/></Route>
                     <Route exact path="/checkout"><Order token={this.props.token}/></Route>

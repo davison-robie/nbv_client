@@ -1,18 +1,23 @@
 body {
   margin: 1;
-  color: white;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  color: white !important;
+  font-family: futura;
+  text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: (0, 0, 0, .5);
+  /* background-color: (0, 0, 0, .1); */
   background-image: url("./components/home/assets/NBV.jpg");
-  opacity: .7;
+  background-size: cover;
+  /* opacity: .7; */
   background-repeat: no-repeat;
-  min-height: 100vh;
+  height: 100vh;
 }
 
+button {
+  color: white !important;
+  font-family: futura;
+  text-transform: uppercase;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -21,10 +26,6 @@ code {
 .navbar-toggler-icon{
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 } */
-
-.btn-outline-light {
-  background-color: rgba(0, 255, 203, .5);
-}
 
 .btn-success:active {
 /*formatting goes here*/
@@ -59,7 +60,7 @@ code {
   background: #313133;
   background-image: url('https://media.giphy.com/media/yPzJdJ11dAkgbYbjsi/giphy.gif');
   background-size: cover;
-  min-height: 100vh;
+  height: 80vh;
   max-width: 400px;
   display: flex;
   align-items: center;

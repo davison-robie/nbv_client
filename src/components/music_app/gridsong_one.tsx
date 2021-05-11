@@ -120,9 +120,11 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
           :
           <div>
             <br />
+            <div className="pixieContainer">
             <button className="pixie" onClick={this.handleClickUno}></button>
             <button className="pixie" onClick={this.handleClickTwo}></button>
             <button className="pixie" onClick={this.handleClickThree}></button>
+            </div>
             <br />
             <br />
             <br />

@@ -1,8 +1,9 @@
 import { Component, FormEvent, ChangeEvent } from 'react';
-import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Col, Input, Button, Modal } from 'reactstrap';
 import { CardElement, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import APIURL from "../helpers/environment";
+import { Link } from "react-router-dom";
 
 export interface OrderProps {
     token: string | null;
@@ -21,7 +22,7 @@ export interface OrderState {
     country: string;
     displayForm: boolean;
     error: boolean;
-    stripe: any;
+    modal: boolean;
 }
  
 class Order extends Component<OrderProps, OrderState> {
@@ -40,53 +41,12 @@ class Order extends Component<OrderProps, OrderState> {
             country: "",
             displayForm: true,
             error: false,
-            stripe: useStripe,
+            modal: false,
           };
     }
     handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        if (this.props.token !== null) {
-            // const { stripe, elements } = this.props;
-            if (this.state.stripe) {
-                // console.log("In If")
-                const { error, paymentMethod } = await this.state.stripe.createPaymentMethod({
-                    type: 'card',
-                    card: CardElement,
-                });
-                if (error) {
-                    console.log('[error]', error);
-                    this.setState({ error: true})
-                } else {
-                    console.log('[PaymentMethod]', paymentMethod);
-                    this.setState({
-                        displayForm: false
-                    })
-                }
-            }
-            fetch(`${APIURL}/order/create`, {
-                method: "POST",
-                body: JSON.stringify({ order:{
-                    cart_items: "",
-                    total: "",
-                    first_name: this.state.first_name,
-                    last_name: this.state.last_name,
-                    mobile: this.state.mobile,
-                    email: this.state.email,
-                    address1: this.state.address1,
-                    address2: this.state.address2,
-                    city: this.state.city,
-                    state: this.state.state,
-                    zip: this.state.zip,
-                    country: this.state.country
-                    }
-                }),
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.token
-                })
-            })
-            .then((response) => response.json())
-        }
+        this.setState({modal: true})
     }
 
     render() { 
@@ -173,6 +133,11 @@ class Order extends Component<OrderProps, OrderState> {
                     <Button type="submit" className="btn btn-outline-light">Place Order</Button>                            
                 </FormGroup>
             </Form>
+            <Modal>
+                Thanks for your purchase! We'll send you an e-mail confirmation shortly.
+                <Link to="/"></Link>
+                <Button type="submit" className="btn btn-outline-light">Home</Button> 
+            </Modal>
         </div>);
     }
 }

@@ -77,7 +77,7 @@ class Inventory extends Component<InventoryProps, InventoryState> {
         return this.props.products.map((product: iProduct, index: number) => {
             
             return (
-                <Card>
+                <Card style={{backgroundColor: 'rgba(0, 0, 0, 0)'}}>
                     <CardImg src={product.image_url}></CardImg>
                     <CardTitle>{product.name}</CardTitle>
                     <CardText>${product.price}</CardText>
@@ -85,8 +85,9 @@ class Inventory extends Component<InventoryProps, InventoryState> {
                     <Button type="button" className="btn-sm btn-outline-light" onClick={(event) => this.handleClick(event, product)} >Add to Cart</Button>
                 </Card>
             )
-        })
+        })  
     }
+
 
     toggle = () => this.setState({modal: !this.state.modal});
     detailClick = (event: MouseEvent, product: iProduct) => {
