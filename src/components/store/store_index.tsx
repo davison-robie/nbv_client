@@ -77,6 +77,9 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
                 console.log(cartItemData);
             })
             .then(() => this.setTotal())
+            .catch(error => {
+                throw(error);
+            })
         }
     }
 

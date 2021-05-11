@@ -14,7 +14,7 @@ export interface SignupProps {
 export interface SignupState {
     username: string,
     email: string,
-    password: string
+    password: string,
 }
  
 class Signup extends Component<SignupProps, SignupState> {
@@ -23,7 +23,7 @@ class Signup extends Component<SignupProps, SignupState> {
         this.state = { 
             username: "",
             email: "",
-            password: "" 
+            password: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }

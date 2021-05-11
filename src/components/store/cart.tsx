@@ -21,6 +21,7 @@ export interface CartState {
     oneCartItem: iCartItem;
     modal: boolean;
     detailModal: boolean;
+    adminInventoryModal: boolean;
 }
  
 class Cart extends Component<CartProps, CartState> {
@@ -39,12 +40,87 @@ class Cart extends Component<CartProps, CartState> {
             },
             modal: false, 
             detailModal: false,
+            adminInventoryModal: false
          };
     }
 
     componentDidMount() {
         this.props.fetchCart();
     }
+
+    cartMapper = () => {
+        return this.props.cartItems.map((cartItem: iCartItem, index: number) => {
+            return (
+                <tr onClick={() => this.handleClick(cartItem)}>
+                    <td>{cartItem.name}</td>
+                    <td></td>
+                    <td>${cartItem.price}</td>
+                </tr>
+            )
+        })
+    }
+
+    setUser = () => {
+
+    }
+
+    toggle = () => this.setState({modal: !this.state.modal});
+    detailToggle = () => this.setState({detailModal: !this.state.detailModal});
+    adminInventoryToggle = () => this.setState({adminInventoryModal: !this.state.adminInventoryModal});
+
+    handleClick = (cartItem: iCartItem) => {
+        this.detailToggle();
+        this.setState({oneCartItem: cartItem})
+    }
+
+    adminHandleClick = () => {
+
+    }
+
+    removeCartItem = (event: MouseEvent, oneCartItem: iCartItem) => {
+        console.log(oneCartItem.id);
+        if (this.props.token !== null) {
+            fetch(`http://localhost:3000/cart_item/delete/${oneCartItem.id}`, {
+                method: "DELETE",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.token
+                })
+            })
+            .then(() => this.props.fetchCart())
+            .then(() => this.detailToggle())
+            .catch(error => {
+                throw(error);
+            })
+        }
+    };
+
+    clearCart = (event: MouseEvent) => {
+        if (this.props.token !== null) {
+            fetch(`http://localhost:3000/cart_item/delete`, {
+                method: "DELETE",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": this.props.token
+                })
+            })
+            .then(() => this.props.fetchCart())
+            .catch(error => {
+                throw(error);
+            })
+        }
+    };
+
+    order = () => console.log("proceed to checkout");
+
+    // adminToggle = () => {
+    //     return (
+    //         { guest_user.role != "admin" ? 
+            
+    //     }
+    //     )
+    // }
+
     emptyCartToggle = () => {
         if (this.props.cartItems.length !== 0) {
             return (
@@ -99,60 +175,12 @@ class Cart extends Component<CartProps, CartState> {
         };        
     }
 
-    cartMapper = () => {
-        return this.props.cartItems.map((cartItem: iCartItem, index: number) => {
-            return (
-                <tr onClick={() => this.handleClick(cartItem)}>
-                    <td>{cartItem.name}</td>
-                    <td></td>
-                    <td>${cartItem.price}</td>
-                </tr>
-            )
-        })
-    }
-
-    toggle = () => this.setState({modal: !this.state.modal});
-    detailToggle = () => this.setState({detailModal: !this.state.detailModal});
-
-    handleClick = (cartItem: iCartItem) => {
-        this.detailToggle();
-        this.setState({oneCartItem: cartItem})
-    }
-
-    removeCartItem = (event: MouseEvent, oneCartItem: iCartItem) => {
-        console.log(oneCartItem.id);
-        if (this.props.token !== null) {
-            fetch(`http://localhost:3000/cart_item/delete/${oneCartItem.id}`, {
-                method: "DELETE",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.token
-                })
-            })
-            .then(() => this.props.fetchCart())
-            .then(() => this.detailToggle());
-        }
-    };
-
-    clearCart = (event: MouseEvent) => {
-        if (this.props.token !== null) {
-            fetch(`http://localhost:3000/cart_item/delete`, {
-                method: "DELETE",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "Authorization": this.props.token
-                })
-            })
-            .then(() => this.props.fetchCart())
-        }
-    };
-
-    order = () => console.log("proceed to checkout");
 
     render() { 
         return (
             <div>
                 <Button className="btn btn-outline-light" onClick={this.toggle}>View Cart</Button>
+                <Button className="btn btn-outline-light" onClick={this.adminHandleClick}>Edit Inventory</Button>
                 {this.emptyCartToggle()}
             </div>
         );

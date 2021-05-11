@@ -16,15 +16,16 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
     this.state = { isLoaded: false };
   }
 
-  componentDidMount() {
+  startApp = () => {
     Tone.Transport.start();
     Tone.Transport.bpm.value = 116;
+    this.setState({ isLoaded: true })
   }
 
   // feedbackDelay = new Tone.FeedbackDelay(0.125, 0.5).toDestination();
 
-  handleClickOne = () => {
-    const feedbackDelay = new Tone.FeedbackDelay(1, 0.5).toDestination();
+  handleClickUno = () => {
+    let pingPongDelay = new Tone.PingPongDelay(0.25, 0.5).toDestination();
     const sampler = new Tone.Sampler({
       urls: {
         A1: "A1.mp3",
@@ -32,14 +33,15 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
       },
       baseUrl: "https://tonejs.github.io/audio/casio/",
       onload: () => {
-        sampler.triggerAttack(["D3"], 3);
-        sampler.triggerAttack(["G3"], 3);
+        sampler.triggerAttackRelease(["D3"], 3);
+        sampler.triggerAttackRelease(["G4"], 3);
       }
-    })
-    sampler.connect(feedbackDelay);
+    }).connect(pingPongDelay);
   }
 
+
   handleClickTwo = () => {
+    let pingPongDelay = new Tone.PingPongDelay(0.25, 0.5).toDestination();
     const sampler = new Tone.Sampler({
       urls: {
         A1: "A1.mp3",
@@ -50,10 +52,11 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
         sampler.triggerAttackRelease(["C3"], 3);
         sampler.triggerAttackRelease(["Bb3"], 3);
       }
-    }).toDestination();
+    }).connect(pingPongDelay);
   }
 
   handleClickThree = () => {
+    let pingPongDelay = new Tone.PingPongDelay(0.25, 0.5).toDestination();
     const sampler = new Tone.Sampler({
       urls: {
         A1: "A1.mp3",
@@ -64,7 +67,7 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
         sampler.triggerAttackRelease(["Eb3"], 3);
         sampler.triggerAttackRelease(["G2"], 3);
       }
-    }).toDestination();
+    }).connect(pingPongDelay);
   }
   handleClickFour = () => {
     const sampler = new Tone.Sampler({
@@ -112,14 +115,24 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
   render() {
     return (
       <div className="musicAppContainer">
-        <button className="pixie" onClick={this.handleClickOne}>V</button>
-        <button className="pixie" onClick={this.handleClickTwo}>B</button>
-        <button className="pixie" onClick={this.handleClickThree}>N</button>
-        <br />
-        
-        <button className="orb" onClick={this.handleClickFour}></button>
-        <button className="orb" onClick={this.handleClickFive}></button>
-        <button className="orb" onClick={this.handleClickSix}></button>
+        { !this.state.isLoaded ?
+            <button className="startApp" onClick={this.startApp}>Play!</button>
+          :
+          <div>
+            <br />
+            <button className="pixie" onClick={this.handleClickUno}>V</button>
+            <button className="pixie" onClick={this.handleClickTwo}>B</button>
+            <button className="pixie" onClick={this.handleClickThree}>N</button>
+            <br />
+            <br />
+            <br />
+            <br />
+            <button className="orb" onClick={this.handleClickFour}></button>
+            <button className="orb" onClick={this.handleClickFive}></button>
+            <button className="orb" onClick={this.handleClickSix}></button>
+          </div>
+          
+        }
       </div>
     );
   }

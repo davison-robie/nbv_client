@@ -15,6 +15,7 @@ export interface LoginState {
     username: string,
     email: string,
     password: string
+    role: string
 }
 
 class Login extends Component<LoginProps, LoginState> {
@@ -23,7 +24,8 @@ class Login extends Component<LoginProps, LoginState> {
         this.setState({
             username: "",
             email: "",
-            password: ""
+            password: "",
+            role: "user"
         })
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -38,7 +40,7 @@ class Login extends Component<LoginProps, LoginState> {
             })
         })
         .then((response) => response.json())
-        .then((data) => {this.props.updateToken(data.sessionToken)})
+        .then((data) => {this.props.updateToken(data.sessionToken)});
     }
     
     render(){
