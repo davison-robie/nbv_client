@@ -43,6 +43,10 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
         }
     }
 
+    adminToggle = () => {
+        
+    }
+
     fetchInventory = () => {
         fetch("http://localhost:3000/product/", {
             method: "GET",
