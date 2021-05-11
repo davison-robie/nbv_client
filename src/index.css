@@ -1,10 +1,16 @@
 body {
   margin: 1;
+  color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: (0, 0, 0, .5);
+  background-image: url("./components/home/assets/NBV.jpg");
+  opacity: .7;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 code {
@@ -16,6 +22,9 @@ code {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 } */
 
+.btn-outline-light {
+  background-color: rgba(0, 255, 203, .5);
+}
 
 .btn-success:active {
 /*formatting goes here*/
@@ -128,7 +137,7 @@ code {
   min-height: 75px;
   color: #4FD1C5;
   background: #4FD1C5;
-  background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  background: linear-gradient(90deg, rgba(129,230,217,.7) 0%, rgba(79,209,197,.7) 100%);
   border: none;
   border-radius: 50%;
   box-shadow: 12px 12px 24px rgba(79,209,197,.64);

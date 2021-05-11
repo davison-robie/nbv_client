@@ -59,12 +59,18 @@ class Signup extends Component<SignupProps, SignupState> {
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
                     <Input 
+                    className="form-control"
+                    type="email"
+                    id="exampleEmail"
                     onChange={(e: ChangeEvent) => this.setState({email: (e.target as HTMLTextAreaElement).value})} 
                     name="email" />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="password">Password</Label>
                     <Input 
+                    className="form-control"
+                    id="pwd"
+                    type="password"
                     onChange={(e: ChangeEvent) => this.setState({password: (e.target as HTMLTextAreaElement).value})} 
                     name="password" />
                 </FormGroup>

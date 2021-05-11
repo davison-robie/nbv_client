@@ -59,15 +59,23 @@ class Login extends Component<LoginProps, LoginState> {
                     <Label htmlFor="name">Name</Label>
                     <Input 
                     onChange={(e: ChangeEvent) => this.setState({username: (e.target as HTMLTextAreaElement).value})} 
-                    name="email" />
+                    name="name" />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="email">Email</Label>
-                    <Input onChange={(event) => {this.setState({email: event.target.value})}} name="email"/>
+                    <Input 
+                    className="form-control"
+                    type="email"
+                    id="exampleEmail"
+                    onChange={(event) => {this.setState({email: event.target.value})}} name="email"/>
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="password">Password</Label>
-                    <Input onChange={(event) => this.setState({password: event.target.value})} name="password" />
+                    <Input 
+                    className="form-control"
+                    id="pwd"
+                    type="password"
+                    onChange={(event) => this.setState({password: event.target.value})} name="password" />
                 </FormGroup>
                 <Button type="submit">Login</Button>
             </Form>
