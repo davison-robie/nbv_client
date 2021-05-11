@@ -116,13 +116,13 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
     return (
       <div className="musicAppContainer">
         { !this.state.isLoaded ?
-            <button className="startApp" onClick={this.startApp}>Play!</button>
+            <button className="startApp" onClick={this.startApp}>Start!</button>
           :
           <div>
             <br />
-            <button className="pixie" onClick={this.handleClickUno}>V</button>
-            <button className="pixie" onClick={this.handleClickTwo}>B</button>
-            <button className="pixie" onClick={this.handleClickThree}>N</button>
+            <button className="pixie" onClick={this.handleClickUno}></button>
+            <button className="pixie" onClick={this.handleClickTwo}></button>
+            <button className="pixie" onClick={this.handleClickThree}></button>
             <br />
             <br />
             <br />

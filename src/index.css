@@ -45,24 +45,87 @@ code {
 
 /* MUSIC APP  */
 .musicAppContainer {
+  margin-left: auto;
+  margin-right: auto;
   background: #313133;
+  background-image: url('https://media.giphy.com/media/yPzJdJ11dAkgbYbjsi/giphy.gif');
+  background-size: cover;
   min-height: 100vh;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
   justify-content: center;
+}
+
+.startApp {
+  max-height: 5em;
+  color: #4FD1C5;
+  background: none;
+  border: 2px solid #4FD1C5;
+}
+.startApp:hover,
+.startApp:focus {
+  box-shadow: inset 0 0 0 2em;
 }
 
 .pixie {
   border-radius: 50%;
+  min-width: 35px;
+  min-height: 35px;
+  background: #d14fcb;
+  background: linear-gradient(90deg, rgb(227, 129, 230) 0%, rgb(209, 79, 209) 100%);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 12px 12px 24px rgba(209, 79, 209, 0.64);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  padding: 10px;
 }
+
+.pixie::before {
+  content: '';
+    border-radius: 1000px;
+    border: 6px solid #ff00ff;
+    box-shadow: 0 0 60px rgba(255, 0, 255, 0.64);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all .3s ease-in-out 0s;
+  }
+
+  .pixie:hover, .orb:focus {
+    color: #313133;
+    transform: translateY(-6px);
+  }
+  
+  .pixie:hover::before, .pixie:focus::before {
+    opacity: 1;
+    animation: ring 1.5s;
+  }
+  
+  .pixie::after {
+    content: '';
+    width: 30px; height: 30px;
+    border-radius: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .pixie:hover::after, button:focus::after {
+    display: none;
+  }
 
 .orb {
   border-radius: 50%;
-  min-width: 50px;
-  min-height: 50px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 22px;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  font-weight: 700;
+  min-width: 75px;
+  min-height: 75px;
   color: #4FD1C5;
   background: #4FD1C5;
   background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
@@ -97,10 +160,6 @@ content: '';
 .orb:hover::before, .orb:focus::before {
   opacity: 1;
   animation: ring 1.5s;
-}
-
-.orb:active {
-  color: white;
 }
 
 .orb::after {

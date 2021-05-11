@@ -41,7 +41,10 @@ class Login extends Component<LoginProps, LoginState> {
             })
         })
         .then((response) => response.json())
-        .then((data) => {this.props.updateToken(data.sessionToken)});
+        .then((data) => {this.props.updateToken(data.sessionToken)})
+        .catch(error => {
+            throw(error);
+        })
     }
     
     render(){

@@ -6,7 +6,7 @@ switch (window.location.hostname) {
         break;
 
     case "niceboyvice.herokuapp.com":
-        APIURL = "https:dpr-niceboyvicedotcom.herokuapp.com"
+        APIURL = "https://dpr-niceboyvicedotcom.herokuapp.com"
 }
 
 export default APIURL;
