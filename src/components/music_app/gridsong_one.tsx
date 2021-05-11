@@ -1,7 +1,6 @@
 import { Component } from 'react';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
 import * as Tone from 'tone';
-const { DRUM1 } = require("./assets/01-drum.mp3");
 
 export interface GridSongOneProps {
     token?: string | null;
@@ -20,44 +19,107 @@ class GridSongOne extends Component <GridSongOneProps, GridSongOneState> {
   componentDidMount() {
     Tone.Transport.start();
     Tone.Transport.bpm.value = 116;
-    const buffer = new Tone.ToneAudioBuffer(DRUM1, () => {
-	console.log("loaded");
-    });
   }
 
+  // feedbackDelay = new Tone.FeedbackDelay(0.125, 0.5).toDestination();
+
   handleClickOne = () => {
-    const player = new Tone.Player(DRUM1).toDestination();
-    Tone.loaded().then(() => {
-	player.start();
-    });
+    const feedbackDelay = new Tone.FeedbackDelay(1, 0.5).toDestination();
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttack(["D3"], 3);
+        sampler.triggerAttack(["G3"], 3);
+      }
+    })
+    sampler.connect(feedbackDelay);
   }
 
   handleClickTwo = () => {
-    const player = new Tone.Player("https://tonejs.github.io/audio/salamander/C4.mp3").toDestination();
-    Tone.loaded().then(() => {
-	player.start();
-    });
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttackRelease(["C3"], 3);
+        sampler.triggerAttackRelease(["Bb3"], 3);
+      }
+    }).toDestination();
   }
 
   handleClickThree = () => {
-    const player = new Tone.Player("https://tonejs.github.io/audio/berklee/gong_1.mp3").toDestination();
-    Tone.loaded().then(() => {
-	player.start();
-    });
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttackRelease(["Eb3"], 3);
+        sampler.triggerAttackRelease(["G2"], 3);
+      }
+    }).toDestination();
+  }
+  handleClickFour = () => {
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttackRelease(["Eb2"], 3);
+        sampler.triggerAttackRelease(["Bb0"], 3);
+      }
+    }).toDestination();
+  }
+
+  handleClickFive = () => {
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttackRelease(["G0"], 3);
+        sampler.triggerAttackRelease(["Eb2"], 3);
+        sampler.triggerAttackRelease(["C0"], 3);
+      }
+    }).toDestination();
+  }
+
+  handleClickSix = () => {
+    const sampler = new Tone.Sampler({
+      urls: {
+        A1: "A1.mp3",
+        A2: "A2.mp3",
+      },
+      baseUrl: "https://tonejs.github.io/audio/casio/",
+      onload: () => {
+        sampler.triggerAttackRelease(["F1"], 3);
+        sampler.triggerAttackRelease(["Ab0"], 3);
+      }
+    }).toDestination();
   }
 
   render() {
     return (
-      <div>
-        <Button className="btn btn-outline-light" onClick={this.handleClickOne}>
-          Start
-        </Button>
-        <Button className="btn btn-outline-light" onClick={this.handleClickTwo}>
-          Start
-        </Button>
-        <Button className="btn btn-outline-light" onClick={this.handleClickThree}>
-          Start
-        </Button>
+      <div className="musicAppContainer">
+        <button className="pixie" onClick={this.handleClickOne}>V</button>
+        <button className="pixie" onClick={this.handleClickTwo}>B</button>
+        <button className="pixie" onClick={this.handleClickThree}>N</button>
+        <br />
+        
+        <button className="orb" onClick={this.handleClickFour}></button>
+        <button className="orb" onClick={this.handleClickFive}></button>
+        <button className="orb" onClick={this.handleClickSix}></button>
       </div>
     );
   }

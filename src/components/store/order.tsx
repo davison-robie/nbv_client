@@ -1,6 +1,7 @@
 import { Component, FormEvent, ChangeEvent } from 'react';
-import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap';
-import { CardElement, } from '@stripe/react-stripe-js';
+import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
+import { CardElement, useStripe } from '@stripe/react-stripe-js';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 
 export interface OrderProps {
     token: string | null;
@@ -17,6 +18,9 @@ export interface OrderState {
     state: string;
     zip: string;
     country: string;
+    displayForm: boolean;
+    error: boolean;
+    stripe: any;
 }
  
 class Order extends Component<OrderProps, OrderState> {
@@ -32,12 +36,32 @@ class Order extends Component<OrderProps, OrderState> {
             city: "",
             state: "",
             zip: "",
-            country: ""
+            country: "",
+            displayForm: true,
+            error: false,
+            stripe: useStripe,
           };
     }
-    handleSubmit = (event: FormEvent) => {
+    handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         if (this.props.token !== null) {
+            // const { stripe, elements } = this.props;
+            if (this.state.stripe) {
+                // console.log("In If")
+                const { error, paymentMethod } = await this.state.stripe.createPaymentMethod({
+                    type: 'card',
+                    card: CardElement,
+                });
+                if (error) {
+                    console.log('[error]', error);
+                    this.setState({ error: true})
+                } else {
+                    console.log('[PaymentMethod]', paymentMethod);
+                    this.setState({
+                        displayForm: false
+                    })
+                }
+            }
             fetch("http://localhost:3000/order/create", {
                 method: "POST",
                 body: JSON.stringify({ order:{
@@ -92,41 +116,35 @@ class Order extends Component<OrderProps, OrderState> {
                     </Col>
                 </FormGroup>
                 <FormGroup className="w-50">
-                <Label htmlFor="Country">Country</Label>
                     <Input 
                     onChange={(e: ChangeEvent) => this.setState({country: (e.target as HTMLTextAreaElement).value})} 
-                    name="Country" />
+                    name="Country" placeholder="Country"/>
                 </FormGroup>
                 <FormGroup className="w-75">
-                <Label htmlFor="Address 1">Address Line 1</Label>
                     <Input 
                     onChange={(e: ChangeEvent) => this.setState({address1: (e.target as HTMLTextAreaElement).value})} 
-                    name="Address Line 1" />
+                    name="Address Line 1" placeholder="Address Line 1"/>
                 </FormGroup>
                 <FormGroup className="w-75">
-                <Label htmlFor="Address 2">Address Line 2</Label>
                     <Input 
                     onChange={(e: ChangeEvent) => this.setState({address2: (e.target as HTMLTextAreaElement).value})} 
-                    name="Address Line 2" />
+                    name="Address Line 2" placeholder="Address Line 2"/>
                 </FormGroup>
                 <FormGroup row>
-                    <Col md={6}>
-                        <Label htmlFor="City">City</Label>
+                    <Col sm={6}>
                         <Input 
                         onChange={(e: ChangeEvent) => this.setState({city: (e.target as HTMLTextAreaElement).value})} 
-                        name="City" />
+                        name="City" placeholder="City"/>
                     </Col>
-                    <Col md={2}>
-                        <Label htmlFor="State">State</Label>
+                    <Col sm={2}>
                         <Input 
                         onChange={(e: ChangeEvent) => this.setState({state: (e.target as HTMLTextAreaElement).value})} 
-                        name="State" />
+                        name="State" placeholder="State/Province"/>
                     </Col>
-                    <Col md={4}>
-                        <Label htmlFor="Zip">Zip/Post Code</Label>
+                    <Col sm={4}>
                         <Input 
                         onChange={(e: ChangeEvent) => this.setState({zip: (e.target as HTMLTextAreaElement).value})} 
-                        name="Zip" />
+                        name="Zip" placeholder="Zip/Post Code"/>
                     </Col>
                 </FormGroup>
                 <FormGroup>
