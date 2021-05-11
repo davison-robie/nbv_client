@@ -6,6 +6,7 @@ import {
     Input,
     Button
 } from "reactstrap";
+import APIURL from "../helpers/environment"
 
 export interface LoginProps {
     updateToken(newToken: string) : void;
@@ -32,7 +33,7 @@ class Login extends Component<LoginProps, LoginState> {
 
     handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        fetch(`http://localhost:3000/guest_user/login`, {
+        fetch(`${APIURL}/guest_user/login`, {
             method: "POST",
             body: JSON.stringify({guest_user:{username: this.state.username, email: this.state.email, password: this.state.password}}),
             headers: new Headers({

@@ -11,6 +11,7 @@ import { CardTitle,
         } from 'reactstrap';
 import { iProduct } from './store_index';
 import { iCartItem } from "./store_index";
+import APIURL from "../helpers/environment";
 
 
 export interface InventoryProps {
@@ -46,7 +47,7 @@ class Inventory extends Component<InventoryProps, InventoryState> {
         event.preventDefault();
         console.log("randomString", product);
         if (this.props.token != null) {                   
-            fetch(`http://localhost:3000/cart_item/create`, {
+            fetch(`${APIURL}/cart_item/create`, {
                 method: "POST",
                 body: JSON.stringify({
                     product_id: product.id,

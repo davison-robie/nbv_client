@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { CardTitle, Modal } from 'reactstrap';
 import Inventory from "./inventory";
 import Cart from "./cart";
+import APIURL from "../helpers/environment";
 
 export interface iProduct {
     id: number | undefined;
@@ -48,7 +49,7 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
     }
 
     fetchInventory = () => {
-        fetch("http://localhost:3000/product/", {
+        fetch(`${APIURL}/product/`, {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
@@ -68,7 +69,7 @@ class StoreIndex extends Component<StoreIndexProps, StoreIndexState> {
 
     fetchCart = () => {
         if (this.props.token !== null) {
-            fetch("http://localhost:3000/cart_item/", {
+            fetch(`${APIURL}/cart_item/`, {
                 method: "GET",
                 headers: new Headers({
                     "Content-Type": "application/json",

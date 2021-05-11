@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { iCartItem } from './store_index';
+import APIURL from "../helpers/environment";
 
 export interface CartProps {
     token: string | null,
@@ -80,7 +81,7 @@ class Cart extends Component<CartProps, CartState> {
     removeCartItem = (event: MouseEvent, oneCartItem: iCartItem) => {
         console.log(oneCartItem.id);
         if (this.props.token !== null) {
-            fetch(`http://localhost:3000/cart_item/delete/${oneCartItem.id}`, {
+            fetch(`${APIURL}/cart_item/delete/${oneCartItem.id}`, {
                 method: "DELETE",
                 headers: new Headers({
                     "Content-Type": "application/json",
@@ -97,7 +98,7 @@ class Cart extends Component<CartProps, CartState> {
 
     clearCart = (event: MouseEvent) => {
         if (this.props.token !== null) {
-            fetch(`http://localhost:3000/cart_item/delete`, {
+            fetch(`${APIURL}/cart_item/delete`, {
                 method: "DELETE",
                 headers: new Headers({
                     "Content-Type": "application/json",

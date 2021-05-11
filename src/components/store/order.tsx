@@ -2,6 +2,7 @@ import { Component, FormEvent, ChangeEvent } from 'react';
 import { Form, FormGroup, Col, Input, Button } from 'reactstrap';
 import { CardElement, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
+import APIURL from "../helpers/environment";
 
 export interface OrderProps {
     token: string | null;
@@ -62,7 +63,7 @@ class Order extends Component<OrderProps, OrderState> {
                     })
                 }
             }
-            fetch("http://localhost:3000/order/create", {
+            fetch(`${APIURL}/order/create`, {
                 method: "POST",
                 body: JSON.stringify({ order:{
                     cart_items: "",
