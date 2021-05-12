@@ -31,18 +31,18 @@ class Sitebar extends Component<SitebarProps, SitebarState> {
     render(){
         return(
             <Navbar class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top" expand="md">
-                <NavbarBrand href="/">Nice Boy Vice</NavbarBrand>
+                <NavbarBrand style={{color: 'white'}} href="/">Nice Boy Vice</NavbarBrand>
                 <NavbarToggler className="navbar-light navbar-toggler-icon" onClick={this.toggle}/>
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                     <NavItem>
                         <Link to="/app">
-                            <NavLink>App</NavLink>
+                            <NavLink style={{color: 'white'}}>App</NavLink>
                         </Link>
                     </NavItem>
                     <NavItem>
                         <Link to="/store">
-                            <NavLink>Store</NavLink>
+                            <NavLink style={{color: 'white'}}>Store</NavLink>
                         </Link>
                     </NavItem>
                     <NavItem>

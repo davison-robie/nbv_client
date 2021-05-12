@@ -1,4 +1,4 @@
-import { Component, FormEvent, ChangeEvent } from 'react';
+import { Component, MouseEvent, ChangeEvent } from 'react';
 import { Form, FormGroup, Col, Input, Button, Modal } from 'reactstrap';
 import { CardElement, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
@@ -22,7 +22,7 @@ export interface OrderState {
     country: string;
     displayForm: boolean;
     error: boolean;
-    modal: boolean;
+    orderModal: boolean;
 }
  
 class Order extends Component<OrderProps, OrderState> {
@@ -41,17 +41,17 @@ class Order extends Component<OrderProps, OrderState> {
             country: "",
             displayForm: true,
             error: false,
-            modal: false,
+            orderModal: false,
           };
     }
-    handleSubmit = async (event: FormEvent) => {
+    handleClick = async (event: MouseEvent) => {
         event.preventDefault();
-        this.setState({modal: true})
+        this.setState({ orderModal: true })
     }
 
     render() { 
         return (<div>
-            <Form className="w-75" onSubmit={this.handleSubmit}>
+            <Form className="w-75">
                 <FormGroup row>
                     <Col md={6}>   
                         <Input 
@@ -114,7 +114,7 @@ class Order extends Component<OrderProps, OrderState> {
                             style: {
                                 base: {
                                 fontSize: '20px',
-                                color: 'black',
+                                color: 'white',
                                 '::placeholder': {
                                 color: '#aab7c4',
                                 },
@@ -129,14 +129,15 @@ class Order extends Component<OrderProps, OrderState> {
                         }}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Button type="submit" className="btn btn-outline-light">Place Order</Button>                            
-                </FormGroup>
             </Form>
-            <Modal>
+            <Button onClick={this.handleClick} className="btn btn-outline-light">Place Order</Button> 
+            <Modal 
+            isOpen={this.state.orderModal}
+            style={{color: 'black', padding: '10px'}}>
                 Thanks for your purchase! We'll send you an e-mail confirmation shortly.
-                <Link to="/"></Link>
-                <Button type="submit" className="btn btn-outline-light">Home</Button> 
+                <Link to="/">
+                <Button className="btn btn-outline-light">Home</Button> 
+                </Link>
             </Modal>
         </div>);
     }

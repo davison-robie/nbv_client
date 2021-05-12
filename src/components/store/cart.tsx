@@ -126,7 +126,7 @@ class Cart extends Component<CartProps, CartState> {
         if (this.props.cartItems.length !== 0) {
             return (
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
-                        <ModalHeader><h1>Cart</h1></ModalHeader>
+                        <ModalHeader style={{color: 'black'}}><h1>Cart</h1></ModalHeader>
                         <ModalBody>
                             <Table responsive="md" hover>
                                 <thead>
@@ -167,9 +167,9 @@ class Cart extends Component<CartProps, CartState> {
         )} else {
             return (
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className="cartStyle">
-                        <ModalHeader><h1>Cart</h1></ModalHeader>
+                        <ModalHeader style={{color: 'black'}}><h1>Cart</h1></ModalHeader>
                         <br/>
-                        <ModalBody><h3>Your cart is empty...</h3></ModalBody>
+                        <ModalBody style={{color: 'black'}}><h3>Your cart is empty...</h3></ModalBody>
                         <br/>
                     </Modal>
             )
